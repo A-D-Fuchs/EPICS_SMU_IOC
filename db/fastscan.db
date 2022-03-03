@@ -2,7 +2,7 @@ record(compress,"scanarray")
 {
 	field(DESC, "Circular buffer")
 	field(ALG,"Circular Buffer")
-	field(NSAM,"10000")
+	field(NSAM,"100")
 	field(HOPR,"100")
 	field(EGU,"Counts")
 }
@@ -27,8 +27,7 @@ record(calcout, "scancounter")
     field(OUT, "scanarray:element.INDX NPP NMS")
     field(FLNK, "stopper")
 	field(SCAN, "Passive")
-	field(TPRO, "1")
-	field(ODLY, "0.0001")
+	field (TPRO, "1")
 }
 
 record(calcout, "stopper")
@@ -40,15 +39,17 @@ record(calcout, "stopper")
     field(FLNK, "scanarray:element")
 	field(SCAN, "Passive")
 	field(TPRO, "1")
-	#field(ODLY, "1")
+	field(ODLY, "0.00001")
 }
+
+
 
 
 record(subArray, "scanarray:element")
 {
     field(INP, "scanarray")
     field(NELM, "1")
-    field(MALM, "10000")
+    field(MALM, "100")
     field(INDX, "0")
     field(FLNK, "scanout")
 	field(FTVL, "FLOAT")
@@ -60,25 +61,24 @@ record(calcout,"scanout")
 {
     field(INPA, "scanarray:element.VAL")
     field(CALC, "A")
-	field(DESC, "Set scanele value")
+	field(DESC, "test Set Voltage")
+    field(DTYP, "stream")
 	field(FLNK, "read")
+	field(OUT,  "@e5270.proto setCh1V $(PORT) $(G)")
 	field(TPRO, "1")
-	field(OUT,  "b2912:setV PP")
-	field(OUT,  "@b2912.proto setCh1V $(PORT)")
-	field(DTYP, "stream")
 }
+
 
 record(ai, "read")
 {
-    field(DESC, "read record")
-    field(PINI, "0")
-    field(TPRO, "1")
-	field(SCAN, "Passive")
-	field(EGU, "A")
+    field (DESC, "read Current")
+	field (DTYP, "stream")
+    field (INP, "@e5270.proto mesI $(PORT) $(G) CCP")
+    field (PINI, "0")
+    field (TPRO, "1")
+	field (SCAN, "Passive")
+	field (EGU, "A")
 	field(FLNK, "readarray")
-	#field(INP, "b2912:mesV NPP")
-	field(DTYP, "stream")
-	field(INP, "@b2912.proto mesV $(PORT)")
 }
 
 record(compress,"readarray")
@@ -86,38 +86,9 @@ record(compress,"readarray")
 	field(DESC, "Circular buffer A")
 	field(INP,"read.VAL NPP NMS")
 	field(ALG,"Circular Buffer")
-	field(NSAM,"10000")
+	field(NSAM,"1000000")
 	field(HOPR,"100")
 	field(EGU,"A")
     field(FLNK, "scancounter")
-	field(TPRO, "1")
-}
-#########################################
-##procmes and waitmes works but is not a good way to do it!!!!
-record(calcout, "procmes")
-{
-	field(CALC, "1")
-	field(OUT, "b2912:mesV.PROC")
-	field(FLNK, "waitmes")
-	field(TPRO, "1")
-}
-record(calcout, "waitmes")
-{
-	field(CALC, "1")
-	field(FLNK, "read")
-	field(TPRO, "1")
-	field(ODLY, "0.05")
-}
-#########################################
-record(fanout, "fan")
-{
-	field(DESC, "fanout test")
-}
-
-record(calcout, "moni")
-{
-	field(INPA, "b2912:mesV")
-	field(CALC, "A")
-	field(OUT, "procmes.C")
-	field(TPRO, "1")
+	field (TPRO, "1")
 }
