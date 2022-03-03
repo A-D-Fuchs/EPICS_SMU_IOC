@@ -39,8 +39,10 @@ record(calcout, "stopper")
     field(FLNK, "scanarray:element")
 	field(SCAN, "Passive")
 	field(TPRO, "1")
-	field(ODLY, "0.0001")
+	field(ODLY, "0.00001")
 }
+
+
 
 
 record(subArray, "scanarray:element")

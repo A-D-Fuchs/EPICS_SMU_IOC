@@ -17,7 +17,7 @@ prologix_DBD += base.dbd
 
 # Include dbd files from all support applications:
 #prologix_DBD += xxx.dbd
-prologix_DBD += base.dbd
+prologix_DBD += sCalcoutRecord.dbd
 prologix_DBD += calc.dbd
 prologix_DBD += drvPrologixGPIB.dbd
 prologix_DBD += stream.dbd
@@ -25,6 +25,7 @@ prologix_DBD += asyn.dbd
 prologix_DBD += drvAsynIPPort.dbd
 # Add all the support libraries needed by this IOC
 #prologix_LIBS += xxx
+prologix_LIBS += sCalcoutRecord
 prologix_LIBS += calc
 prologix_LIBS += drvPrologixGPIB
 prologix_LIBS += stream

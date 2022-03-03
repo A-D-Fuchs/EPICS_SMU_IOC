@@ -36,13 +36,13 @@ asynSetTraceMask("B29", $(A), 0x9)
 #dbLoadRecords("db/gpib_win.db","P=$(IOC):,R=Test:,PORT=L0,A=11,B=23")
 ##############################################
 #Uncomment to use E5270B !!!!
-dbLoadRecords("db/gpib_e5270.db","PORT=L0,G=17")
-dbLoadRecords("db/fastscan.db","PORT=L0,G=17")
+#dbLoadRecords("db/gpib_e5270.db","PORT=L0,G=17")
+#dbLoadRecords("db/fastscan.db","PORT=L0,G=17")
 ##############################################
 #dbLoadRecords("db/gpib_34401.db","PORT=L0,G=22")
 
-#dbLoadRecords("db/gpib_b2912.db","PORT=B29")
-#dbLoadRecords("db/fastscan_B2912.db","PORT=B29")
+dbLoadRecords("db/gpib_b2912.db","PORT=B29")
+dbLoadRecords("db/fastscan_B2912.db","PORT=B29")
 
 #dbLoadRecords("db/gpib_k220.db","PORT=L0,G=3")
 cd "${TOP}/iocBoot/${IOC}"

@@ -6,7 +6,6 @@ record(ai, "b2912:mesV")
     field (PINI, "0")
     field (TPRO, "1")
 	field (SCAN, "Passive")
-	field (MDEL, "0.001")
 }
 
 
@@ -22,8 +21,11 @@ record(ai, "b2912:mesI")
 
 record(ao, b2912:setV)
 {
-	field (DTYP, "stream")
+	field(DTYP, "stream")
 	field(OUT, "@b2912.proto setCh1V $(PORT)")
+    field(TPRO, "1")
+	field(SCAN, "Passive")
+	
 }
 
 record (stringin, "b2912:idn")

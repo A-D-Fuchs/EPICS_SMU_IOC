@@ -35,11 +35,11 @@ record(calcout, "stopper")
     field(DESC, "stops array scan")
     field(INPA, "scancounter.VAL")
     field(CALC, "(A=-1)?(A+2):0")
-    field(OUT, "readarray.DISA NPP NMS")
+    field(OUT, "scanarray:element.DISA NPP NMS")
     field(FLNK, "scanarray:element")
 	field(SCAN, "Passive")
 	field(TPRO, "1")
-	field(ODLY, "0.0001")
+	field(ODLY, "0.00001")
 }
 
 

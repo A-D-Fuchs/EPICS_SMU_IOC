@@ -2,7 +2,7 @@ record(compress,"scanarray")
 {
 	field(DESC, "Circular buffer")
 	field(ALG,"Circular Buffer")
-	field(NSAM,"1000")
+	field(NSAM,"10000")
 	field(HOPR,"100")
 	field(EGU,"Counts")
 }
@@ -27,7 +27,8 @@ record(calcout, "scancounter")
     field(OUT, "scanarray:element.INDX NPP NMS")
     field(FLNK, "stopper")
 	field(SCAN, "Passive")
-	field (TPRO, "1")
+	field(TPRO, "1")
+	field(ODLY, "0.0001")
 }
 
 record(calcout, "stopper")
@@ -36,10 +37,10 @@ record(calcout, "stopper")
     field(INPA, "scancounter.VAL")
     field(CALC, "(A=-1)?(A+2):0")
     field(OUT, "scanarray:element.DISA NPP NMS")
-    field(FLNK, "scanarray:element")
+    #field(FLNK, "scanarray:element")
 	field(SCAN, "Passive")
 	field(TPRO, "1")
-	field(ODLY, "0.0001")
+	#field(ODLY, "1")
 }
 
 
@@ -47,7 +48,7 @@ record(subArray, "scanarray:element")
 {
     field(INP, "scanarray")
     field(NELM, "1")
-    field(MALM, "100")
+    field(MALM, "10000")
     field(INDX, "0")
     field(FLNK, "scanout")
 	field(FTVL, "FLOAT")
@@ -59,24 +60,26 @@ record(calcout,"scanout")
 {
     field(INPA, "scanarray:element.VAL")
     field(CALC, "A")
-	field(DESC, "test Set Voltage")
-    field(DTYP, "stream")
+	field(DESC, "Set scanele value")
 	field(FLNK, "read")
-	field(OUT,  "@b2912.proto setCh1V $(PORT)")
 	field(TPRO, "1")
+	field(OUT,  "b2912:setV PP")
+	#field(OUT,  "@b2912.proto setCh1V $(PORT)")
+	#field(DTYP, "stream")
 }
-
 
 record(ai, "read")
 {
-    field (DESC, "read Current")
-	field (DTYP, "stream")
-    field (INP, "@b2912.proto mesI $(PORT) CCP")
-    field (PINI, "0")
-    field (TPRO, "1")
-	field (SCAN, "Passive")
-	field (EGU, "A")
-	field(FLNK, "readarray")
+    field(DESC, "read record")
+    field(PINI, "0")
+    field(TPRO, "1")
+	field(SCAN, "Passive")
+	field(EGU, "A")
+	#field(FLNK, "readarray")
+	field(INP, "b2912:mesV PP")
+	#field(DTYP, "stream")
+	#field(INP, "@b2912.proto mesV $(PORT)")
+	field(RPRO, "1")
 }
 
 record(compress,"readarray")
@@ -88,5 +91,27 @@ record(compress,"readarray")
 	field(HOPR,"100")
 	field(EGU,"A")
     field(FLNK, "scancounter")
-	field (TPRO, "1")
+	field(TPRO, "1")
+}
+
+record(fanout, "fan")
+{
+	field(DESC, "fanout test")
+}
+
+record(ao, "aot")
+{
+	#field(DTYP, "stream")
+	field(DESC, "ao test")
+	#field(OUT, "@b2912.proto mesV $(PORT)")
+}
+
+record(scalcout, "cho")
+{
+	field(INPA, "1")
+	field(CALC, "PRINTF('wave%d PP',A)")
+	field(OUT,  "scanout.OUT CA")
+	field(FLNK, "scanout.PROC CA")
+	field(DOPT, "Use CALC")
+	field(OOPT, "Every Time")
 }
