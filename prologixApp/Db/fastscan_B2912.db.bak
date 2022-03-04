@@ -50,25 +50,25 @@ record(subArray, "scanarray:element")
     field(NELM, "1")
     field(MALM, "10000")
     field(INDX, "0")
-    field(FLNK, "scanout")
+    field(FLNK, "b2912:scanout")
 	field(FTVL, "FLOAT")
 	field(TPRO, "1")
     
 }
 
-record(calcout,"scanout")
+record(calcout,"b2912:scanout")
 {
     field(INPA, "scanarray:element.VAL")
     field(CALC, "A")
 	field(DESC, "Set scanele value")
-	field(FLNK, "read")
+	field(FLNK, "b2912:read")
 	field(TPRO, "1")
 	field(OUT,  "b2912:setV PP")
 	field(OUT,  "@b2912.proto setCh1V $(PORT)")
 	field(DTYP, "stream")
 }
 
-record(ai, "read")
+record(ai, "b2912:read")
 {
     field(DESC, "read record")
     field(PINI, "0")
@@ -84,7 +84,7 @@ record(ai, "read")
 record(compress,"readarray")
 {
 	field(DESC, "Circular buffer A")
-	field(INP,"read.VAL NPP NMS")
+	field(INP,"b2912:read.VAL NPP NMS")
 	field(ALG,"Circular Buffer")
 	field(NSAM,"10000")
 	field(HOPR,"100")
@@ -104,20 +104,33 @@ record(calcout, "procmes")
 record(calcout, "waitmes")
 {
 	field(CALC, "1")
-	field(FLNK, "read")
+	field(FLNK, "b2912:read")
 	field(TPRO, "1")
 	field(ODLY, "0.05")
 }
 #########################################
-record(fanout, "fan")
+
+record(calcout,"e5270:scanout")
 {
-	field(DESC, "fanout test")
+    field(INPA, "scanarray:element.VAL")
+    field(CALC, "A")
+	field(DESC, "Set scanele value")
+	field(FLNK, "e5270:read")
+	field(TPRO, "1")
+	field(OUT,  "b2912:setV PP")
+	field (OUT,  "@e5270.proto setCh1V $(PORT) $(G)")
+	field(DTYP, "stream")
 }
 
-record(calcout, "moni")
+record(ai, "e5270:read")
 {
-	field(INPA, "b2912:mesV")
-	field(CALC, "A")
-	field(OUT, "procmes.C")
-	field(TPRO, "1")
+    field(DESC, "read record")
+    field(PINI, "0")
+    field(TPRO, "1")
+	field(SCAN, "Passive")
+	field(EGU, "A")
+	field(FLNK, "readarray")
+	#field(INP, "b2912:mesV NPP")
+	field(DTYP, "stream")
+	field (INP, "@e5270.proto mesV $(PORT) $(G)")
 }
