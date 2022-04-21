@@ -19,6 +19,8 @@ DB += k220.proto
 DB += devSCPI.proto
 DB += fastscan.db
 DB += fastscan_B2912.db
+DB += e4980a.db
+DB += e4980a.proto
 #DB_INSTALLS += $(TOP)/gpibApp/Db/devSCPI.proto
 DB_INSTALLS += $(ASYN)/db/asynRecord.db
 

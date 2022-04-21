@@ -27,24 +27,27 @@ asynSetTraceIOMask("PRO1", $(A), 0x2)
 asynSetTraceMask("PRO1", $(A), 0x9)
 
 # Set up IP ASYN
-drvAsynIPPortConfigure("B29","10.131.162.33:5025",0,0,1)
-asynSetTraceIOMask("B29", $(A), 0x2)
-asynSetTraceMask("B29", $(A), 0x9)
+#drvAsynIPPortConfigure("B29","10.131.162.33:5025",0,0,1)
+#asynSetTraceIOMask("B29", $(A), 0x2)
+#asynSetTraceMask("B29", $(A), 0x9)
 
 ## Load record instances
 #dbLoadRecords("db/xxx.db","user=epics")
 #dbLoadRecords("db/gpib_win.db","P=$(IOC):,R=Test:,PORT=PRO1,A=11,B=23")
 ##############################################
 #Uncomment to use E5270B !!!!
-dbLoadRecords("db/gpib_e5270.db","PORT=PRO1,G=17")
+#dbLoadRecords("db/gpib_e5270.db","PORT=PRO1,G=17")
 #dbLoadRecords("db/fastscan.db","PORT=PRO1,G=17")
 ##############################################
 #dbLoadRecords("db/gpib_34401.db","PORT=PRO1,G=22")
-
-dbLoadRecords("db/gpib_b2912.db","PORT=B29")
-dbLoadRecords("db/fastscan_B2912.db","PORT=B29,G=17")
-
+###
+#dbLoadRecords("db/gpib_b2912.db","PORT=B29")
+#dbLoadRecords("db/fastscan_B2912.db","PORT=B29,G=17")
+###
 #dbLoadRecords("db/gpib_k220.db","PORT=PRO1,G=3")
+###
+dbLoadRecords("db/e4980a.db","PORT=PRO1,G=21,PRE=HALL")
+###
 cd "${TOP}/iocBoot/${IOC}"
 iocInit
 

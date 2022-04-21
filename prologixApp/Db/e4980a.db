@@ -1,0 +1,40 @@
+record(ao, "$(PRE):e4980a:setV")
+{
+    field (DESC, "Set Voltage")
+    field (DTYP, "stream")
+    field (OUT,  "@e4980a.proto setV $(PORT) $(G)")
+    field (PREC, "4")
+    field (PINI, "NO")
+	field (TPRO, "1")
+	field (EGU, "V")
+}
+
+record(ai, "$(PRE):e4980a:readV")
+{
+    field (DESC, "Read Voltage")
+    field (DTYP, "stream")
+    field (INP,  "@e4980a.proto readV $(PORT) $(G)")
+    field (PREC, "4")
+    field (PINI, "NO")
+	field (TPRO, "1")
+	field (EGU, "V")
+}
+
+record(ao, "$(PRE):e4980a:reset" )
+{
+    field (DESC, "Reset device")
+    field (DTYP, "stream")
+    field (OUT,  "@e4980a.proto reset $(PORT) $(G)")
+    field (PINI, "NO")
+    field (TPRO, "1")
+}
+
+record(stringin, "$(PRE):e4980a:getid" )
+{
+    field (DESC, "Reset device")
+    field (DTYP, "stream")
+    field (INP,  "@e4980a.proto getid $(PORT) $(G)")
+    field (PINI, "NO")
+    field (TPRO, "1")
+}
+

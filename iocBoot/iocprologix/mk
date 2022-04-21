@@ -4,4 +4,5 @@ cd ../..
 make distclean
 make
 cd iocBoot/iocprologix
+chmod 777 st.cmd
 ./st.cmd

@@ -1,0 +1,112 @@
+record(compress,"scanarray")
+{
+	field(DESC, "Circular buffer")
+	field(ALG,"Circular Buffer")
+	field(NSAM,"10000")
+	field(HOPR,"100")
+	field(EGU,"Counts")
+}
+record(calcout, "starter")
+{
+    field(DESC, "starts array scan")
+    field(INPA, "starter.VAL")
+    field(CALC, "(A=0)?(A+1):(-1)")
+    field(FLNK, "scanarray:element")
+	field(SCAN, "Passive")
+	field(TPRO, "1")
+}
+
+record(calcout, "scancounter")
+{
+    field(DESC, "counter for elements")
+    field(INPA, "scancounter.VAL")
+    field(INPB, "1")
+    field(INPC, "scanarray.NUSE NPP NMS")
+    field(INPD, "0")
+    field(CALC, "(A<C-1)?(A+B):-1")
+    field(OUT, "scanarray:element.INDX NPP NMS")
+    field(FLNK, "stopper")
+	field(SCAN, "Passive")
+	field(TPRO, "1")
+	field(ODLY, "0.0001")
+}
+
+record(calcout, "stopper")
+{
+    field(DESC, "stops array scan")
+    field(INPA, "scancounter.VAL")
+    field(CALC, "(A=-1)?(A+2):0")
+    field(OUT, "scanarray:element.DISA NPP NMS")
+    field(FLNK, "scanarray:element")
+	field(SCAN, "Passive")
+	field(TPRO, "1")
+	#field(ODLY, "1")
+}
+
+
+record(subArray, "scanarray:element")
+{
+    field(INP, "scanarray")
+    field(NELM, "1")
+    field(MALM, "10000")
+    field(INDX, "0")
+    field(FLNK, "b2912:scanout")
+	field(FTVL, "FLOAT")
+	field(TPRO, "1")
+    
+}
+
+record(calcout,"b2912:scanout")
+{
+    field(INPA, "scanarray:element.VAL")
+    field(CALC, "A")
+	field(DESC, "Set scanele value")
+	field(FLNK, "b2912:read")
+	field(TPRO, "1")
+	field(OUT,  "b2912:setV PP")
+	field(OUT,  "@b2912.proto setCh1V $(PORT)")
+	field(DTYP, "stream")
+}
+
+record(ai, "b2912:read")
+{
+    field(DESC, "read record")
+    field(PINI, "0")
+    field(TPRO, "1")
+	field(SCAN, "Passive")
+	field(EGU, "A")
+	field(FLNK, "readarray")
+	#field(INP, "b2912:mesV NPP")
+	field(DTYP, "stream")
+	field(INP, "@b2912.proto mesV $(PORT)")
+}
+
+record(compress,"readarray")
+{
+	field(DESC, "Circular buffer A")
+	field(INP,"b2912:read.VAL NPP NMS")
+	field(ALG,"Circular Buffer")
+	field(NSAM,"10000")
+	field(HOPR,"100")
+	field(EGU,"A")
+    field(FLNK, "scancounter")
+	field(TPRO, "1")
+}
+#########################################
+##procmes and waitmes works but is not a good way to do it!!!!
+record(calcout, "procmes")
+{
+	field(CALC, "1")
+	field(OUT, "b2912:mesV.PROC")
+	field(FLNK, "waitmes")
+	field(TPRO, "1")
+}
+record(calcout, "waitmes")
+{
+	field(CALC, "1")
+	field(FLNK, "b2912:read")
+	field(TPRO, "1")
+	field(ODLY, "0.05")
+}
+#########################################
+

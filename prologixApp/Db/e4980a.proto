@@ -1,0 +1,32 @@
+ReplyTimeout = 2000;
+InTerminator = "\n";
+
+#Reset SMU
+reset {
+	out "*RST";
+}
+
+
+#Get Identifier of device and ignore any carrige returns \r and new lines \n
+getid {
+	out "*IDN?";
+	in "%1000c"; #allows upto 1000 characters of string and white spaces
+	ExtraInput = Ignore;
+}
+
+
+#Get 4 Errors in Errlog Buffer
+getErr {
+	out "ERR?";
+	in "%[^\r\n]";
+	ExtraInput = Ignore;
+}
+
+setV {
+    out "VOLT %f";
+}
+
+readV {
+    out ":VOLT?";
+    in "%f";
+}

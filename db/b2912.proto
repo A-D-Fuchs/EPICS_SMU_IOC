@@ -1,0 +1,49 @@
+InTerminator = '\n';
+OutTerminator = '\r\n';
+LockTimeout = 5000;
+ReplyTimeout = 200;
+ReadTimeout = 100;
+
+setCh1V {
+	out "SOUR1:VOLT %f";
+}
+
+#Measure voltage DC
+mesV {
+	out "MEAS:VOLT? (@1)";
+	in "%f";
+    ExtraInput = Ignore;
+}
+
+#Measure current DC
+mesI {
+	out "MEAS:CURR? (@1)";
+	in "%f";
+    ExtraInput = Ignore;
+}
+
+#Measure Resistance
+mesR {
+	out "MEAS:RES?";
+	in "%f";
+    ExtraInput = Ignore;
+}
+
+
+
+
+#get Identification
+
+idn {
+	out "*IDN?";
+	in "%1000c";
+    ExtraInput = Ignore;
+}
+
+wonly {
+	out "%s";
+}
+
+ronly {
+	in "%1000c";
+}
